@@ -1,0 +1,11 @@
+{
+  "name": "discord.js-v14-bot-template",
+  "version": "1.0.0",
+  "description": "Clone this repo to create a new discord.js v14 bot, no need to write boilerplate, everything's already set up",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "npx nodemon index.ts",
+    "build": "tsc"
+  }
+}
