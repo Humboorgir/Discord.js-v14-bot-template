@@ -9,11 +9,22 @@ const { Guilds, GuildMessages, MessageContent } = Discord.GatewayIntentBits;
 const client = new Discord.Client({ intents: [Guilds, GuildMessages, MessageContent] });
 const { DISCORD_TOKEN } = process.env;
 
-client.on("ready", (client) => {
-  console.log(`Logged in as ${client.user!.tag}`);
-});
-
 client.commands = new Discord.Collection<string, Command>();
+
+// Event handler
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
+
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath).default;
+  console.log(`Loading event: ${event.name}`);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args));
+  }
+}
 
 // Command handler
 const foldersPath = path.join(__dirname, "commands");
@@ -33,22 +44,8 @@ for (const folder of commandFolders) {
       console.log(`The command at ${filePath} is missing a required 'data' or 'execute' property.`);
       continue;
     }
-    console.log(`Loaded command ${command.data.name}`);
+    console.log(`Loading command: ${command.data.name}`);
     client.commands.set(command.data.name, command);
-  }
-}
-
-// Event handler
-const eventsPath = path.join(__dirname, "events");
-const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith(".js"));
-
-for (const file of eventFiles) {
-  const filePath = path.join(eventsPath, file);
-  const event = require(filePath).default;
-  if (event.once) {
-    client.once(event.name, (...args) => event.execute(...args));
-  } else {
-    client.on(event.name, (...args) => event.execute(...args));
   }
 }
 
