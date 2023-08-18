@@ -1,6 +1,6 @@
 import type { Event } from "@/types";
 
-export default {
+const event = {
   name: "InteractionCreate",
   async execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
@@ -32,3 +32,5 @@ export default {
     }
   },
 } as Event;
+
+export default event;
