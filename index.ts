@@ -1,4 +1,5 @@
-require("dotenv").config();
+import { config } from "dotenv";
+config();
 
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import * as path from "path";

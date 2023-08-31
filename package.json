@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node dist/index.js",
     "dev": "npx nodemon index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "deploy": "ts-node deploy-commands.ts"
   },
   "devDependencies": {
     "@types/node": "^20.5.0",
