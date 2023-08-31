@@ -1,7 +1,7 @@
 import type { Event } from "@/types";
 
 const event = {
-  name: "InteractionCreate",
+  name: "interactionCreate",
   async execute(interaction) {
     if (!interaction.isChatInputCommand()) return;
 
